@@ -9,5 +9,20 @@ socket.on('disconnect', function() {
 });
 
 socket.on('newMessage', function(newMessage) {
-	console.log('Received a new message', newMessage);
+	console.log('Received a new message from the server', newMessage);
+
+	var li = $('<li></li>');
+	li.text(`${newMessage.from} : ${newMessage.text}`);
+	$('#messages').append(li);
 });
+
+$('#message-form').on('submit', function(e){
+	e.preventDefault();
+
+	socket.emit('createMessage', {
+		'from' : 'User',
+		'text' : $('[name = message]').val()
+	}, function(data) {
+		
+	});
+})

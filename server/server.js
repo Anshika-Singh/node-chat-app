@@ -21,10 +21,12 @@ io.on('connection', (socket) => {
 		console.log('Client disconnected');
 	});
 
-	socket.on('createMessage', function(message) {
+	socket.on('createMessage', (message, callback) => {
 		console.log('Received a new message', message);
 
 		io.emit('newMessage', generateMessage(message.from, message.text));
+
+		callback('This is from the server');
 	});
 });
 server.listen(port, () => {
