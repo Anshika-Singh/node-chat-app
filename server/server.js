@@ -16,14 +16,14 @@ io.on('connection', (socket) => {
 		console.log('Client disconnected');
 	});
 
-	socket.emit('newMessage', {
-		'from' : 'Anshika Singh',
-		'text' : 'Hello, how are you?',
-		'createdAt' : new Date()
-	});
-
 	socket.on('createMessage', function(newMessage) {
 		console.log('Received a new message', newMessage);
+
+		io.emit('newMessage', {
+			'from' : newMessage.from,
+			'text' : newMessage.text,
+			'createdAt' : new Date().getTime()
+		});
 	});
 });
 server.listen(port, () => {
