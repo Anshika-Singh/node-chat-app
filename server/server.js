@@ -12,23 +12,16 @@ var io = socketIO(server); //serversocket created here and io() used to create s
 
 io.on('connection', (socket) => {
 	console.log('New User Connected');
-
 	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-
 	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User Joined'));
-
 	socket.on('disconnect', () => {
 		console.log('Client disconnected');
 	});
-
 	socket.on('createMessage', (message, callback) => {
 		console.log('Received a new message', message);
-
 		io.emit('newMessage', generateMessage(message.from, message.text));
-
 		callback();
 	});
-
 	socket.on('createLocationMessage', (coords) => {
 		io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
 	});
